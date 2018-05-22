@@ -1,9 +1,10 @@
-
+function [S V Ybus] = NewtonRaphson(dat1, dat2, dat3)
   % Order of buses
   % slack; PQ; PV
-  dat1 = [1 2 0 1/20 0; 2 3 0 1/20 0; 1 3 0 1/40 0];
-  dat2 = [-5 -4];
-  dat3 = [4 1.05]; 
+  % dat 1: network data - from to R X hlc
+  % dat 2: P and Q for each PQ bus
+  % dat 3: P and V for each PV bus
+  
   data = dat1;
   Ybus = CalcYbus(data);
   nbus = size(Ybus, 1);
@@ -69,7 +70,7 @@
           J4(i - 1, i - 1) = -imag(PQvii);
         else
           PQdik = 1j * V(k) * conj(V(i)) * Ybus(i, k);
-          PQvik = V(k) * con  j(V(i)) * Ybus(i, k);
+          PQvik = V(k) * conj(V(i)) * Ybus(i, k);
           J1(i - 1, k - 1) = real(PQdik);
           J3(i - 1, k - 1) = -imag(PQdik);
           J2(i - 1, k - 1) = real(PQvik);
@@ -98,4 +99,6 @@
  S = V .* conj(Ybus * V) ;
  
  disp(n);
+ 
+ endfunction
  
